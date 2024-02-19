@@ -1,0 +1,9 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Edit Article{% endblock %}
+
+{% block main %}
+    <a href="{{ path('admin_articles') }}">< Back to list</a>
+    <h3>Edit Article</h3>
+    {{ include('admin_article/_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="wrapper">
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="{{ path('app_index') }}">Welcome</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_articles') }}">Articles</a>
+            </li>
+        </ul>
+
+
+      {% block main %}{% endblock %}
+    </div>
+{% endblock %}

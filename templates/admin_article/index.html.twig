@@ -1,0 +1,52 @@
+{% extends 'admin.html.twig' %}
+
+{% block main %}
+    <div class="wrapper">
+        <h3>Article list</h3>
+        <a class="btn btn-success" href="{{ path('admin_article_new') }}">create article</a>
+        <form method="post" action="{{ path('admin_article_batch') }}"
+              onsubmit="return confirm('Are you sure you want to delete these items?');">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Created at</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for article in articleList %}
+                    <tr>
+                        <th scope="row">
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                <input name="article_list[{{ article.id }}]" type="checkbox">
+                            {% else %}
+                                {{ article.id }}
+                            {% endif %}
+                        </th>
+                        <td>{{ article.title }}</td>
+                        <td>{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>
+                            <ul class="list-inline m-0">
+                                <li class="list-inline-item">
+                                    <a href="{{ path('admin_article_edit', {'id': article.id }) }}" class="btn btn-success">edit</a>
+                                </li>
+                                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                    <li class="list-inline-item">
+                                        <a href="{{ path('admin_article_delete', {'id': article.id }) }}" class="btn btn-danger">delete</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% if is_granted('ROLE_SUPER_ADMIN') and articleList|length > 0 %}
+                <button type="submit" class="btn btn-danger">Delete checked</button>
+            {% endif %}
+
+        </form>
+    </div>
+{% endblock %}
